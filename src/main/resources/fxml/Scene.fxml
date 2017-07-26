@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ajp.cheechoo.FXMLController">
+   <children>
+      <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <SplitPane dividerPositions="0.3324607329842932" orientation="VERTICAL" prefHeight="768.0" prefWidth="407.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="226.0" prefWidth="405.0">
+                           <children>
+                              <Label fx:id="searchBoxLabel" layoutX="14.0" layoutY="14.0" text="Enter your search terms" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="searchTxtField" layoutX="14.0" layoutY="41.0" prefHeight="25.0" prefWidth="372.0" AnchorPane.leftAnchor="14.0" />
+                              <Button fx:id="searchButton" layoutX="274.0" layoutY="194.0" mnemonicParsing="false" onAction="#startCrawling" text="Start crawling" AnchorPane.leftAnchor="274.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Button>
+                              <Slider fx:id="threadSlider" layoutX="14.0" layoutY="100.0" majorTickUnit="1.0" max="4.0" min="1.0" minorTickCount="1" prefHeight="14.0" prefWidth="372.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="2.0" />
+                              <Label layoutX="14.0" layoutY="76.0" text="Number of threads: " />
+                              <Label layoutX="14.0" layoutY="145.0" text="Path to save your HTML files:" />
+                              <Label fx:id="pathLabel" layoutX="14.0" layoutY="168.0" prefHeight="17.0" prefWidth="372.0" text="Not set!!" />
+                              <Button fx:id="changeDirButton" layoutX="13.0" layoutY="196.0" mnemonicParsing="false" onAction="#changeHtmlDirectory" text="Change Directory" />
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="509.0" prefWidth="405.0">
+                           <children>
+                              <Label layoutX="13.0" layoutY="14.0" text="Search Results">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <ListView fx:id="resultsListView" layoutX="13.0" onMouseClicked="#displayResultDetails" prefHeight="315.0" prefWidth="381.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="13.0" />
+                              <Label fx:id="timeTakenLabel" layoutX="13.0" layoutY="51.0" text="Time taken: " />
+                              <Label fx:id="occurancesLabel" layoutX="13.0" layoutY="79.0" text="Number of occurances: " />
+                              <Label fx:id="descriptionLabel" layoutX="14.0" layoutY="111.0" prefHeight="17.0" prefWidth="372.0" text="Description:" wrapText="true" />
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+               <children>
+                  <WebView fx:id="displayWebView" layoutY="44.0" prefHeight="709.0" prefWidth="955.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+                  <Label layoutX="14.0" layoutY="14.0" text="How the awesome page looks without CSS" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

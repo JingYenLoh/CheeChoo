@@ -82,7 +82,7 @@
                                  <children>
                                     <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
                                        <content>
-                                          <Text fx:id="htmlText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                                          <Text fx:id="htmlText" strokeType="OUTSIDE" strokeWidth="0.0" text="You have not selected any result for viewing yet. Search some terms and select a crawled result!">
                                              <font>
                                                 <Font name="Consolas" size="12.0" />
                                              </font>

@@ -24,6 +24,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.DirectoryChooser;
@@ -33,6 +34,8 @@ public class FXMLController implements Initializable {
 
     //<editor-fold desc="FXML controls" defaultstate="collapsed">
     // General controls
+    @FXML
+    private Text htmlText;
     @FXML
     private Slider threadSlider;
     @FXML
@@ -78,7 +81,7 @@ public class FXMLController implements Initializable {
         searchResults = FXCollections.observableList(seedList);
         resultsListView.setItems(searchResults);
 
-        searchTxtField.setText("san andreas");
+//        searchTxtField.setText("san andreas");
     }
 
     @FXML
@@ -237,6 +240,7 @@ public class FXMLController implements Initializable {
         String htmlFile = urlToFile.get(sr.getUrl()).toURI().toString();
         System.out.println(htmlFile);
         webEngine.load(htmlFile);
+        htmlText.setText(sr.getHtml());
     }
 
 }

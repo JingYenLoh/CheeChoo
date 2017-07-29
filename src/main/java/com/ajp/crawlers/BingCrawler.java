@@ -27,7 +27,6 @@ public class BingCrawler extends SearchEngineCrawler {
     private static final String BASE_URL = "https://www.bing.com/search?q=";
 
     // <editor-fold desc="Some regex constants" defaultstate="collapsed">
-    
     private static final String TITLE_REGEX = "<h2.*?><a.*?>(.*?)</a></h2>";
     private static final Pattern TITLE_PATTERN = Pattern.compile(TITLE_REGEX, Pattern.DOTALL);
 
@@ -39,9 +38,8 @@ public class BingCrawler extends SearchEngineCrawler {
 
     private static final String RESULT_REGEX = "<li\\s?class=\"b_algo\">(.*?)<\\/div><\\/li>";
     private static final Pattern RESULT_PATTERN = Pattern.compile(RESULT_REGEX, Pattern.DOTALL);
-    
-    // </editor-fold>
 
+    // </editor-fold>
     private final String input;
     private final List<SearchResult> searchResults;
     private final BlockingQueue<SearchResult> queue;
@@ -100,7 +98,7 @@ public class BingCrawler extends SearchEngineCrawler {
                             System.out.println("No description found");
                         }
 
-                        searchResult.getSearchedBy().add(SearchEngine.GOOGLE);
+                        searchResult.getSearchedBy().add(SearchEngine.BING);
 
                         searchResults.add(searchResult);
 
@@ -111,7 +109,13 @@ public class BingCrawler extends SearchEngineCrawler {
 
                         if (queue.contains(searchResult)) {
                             // logic to append to searchedBy
-                            System.err.println("Queue is full but idk how to append yet");
+                            SearchResult res = queue.stream()
+                                    .filter(sr -> sr.equals(searchResult))
+                                    .findFirst()
+                                    .get();
+                            res.getSearchedBy().add(SearchEngine.BING);
+//                            System.err.println("Queue is full but idk how to append yet");
+
                         } else {
                             System.out.println("New result added.");
                             queue.add(searchResult);

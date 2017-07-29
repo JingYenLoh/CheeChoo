@@ -207,7 +207,12 @@ public final class GoogleCrawler extends SearchEngineCrawler {
 
                     if (queue.contains(searchResult)) {
                         // logic to append to searchedBy
-                        System.err.println("Queue is full but idk how to append yet");
+                        SearchResult res = queue.stream()
+                                .filter(sr -> sr.equals(searchResult))
+                                .findFirst()
+                                .get();
+                        res.getSearchedBy().add(SearchEngine.GOOGLE);
+//                        System.err.println("Queue is full but idk how to append yet");
                     } else {
                         System.out.println("New result added.");
                         queue.add(searchResult);

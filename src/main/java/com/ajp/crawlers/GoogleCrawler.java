@@ -27,16 +27,16 @@ public final class GoogleCrawler extends SearchEngineCrawler {
     private static final String BASE_URL = "https://www.google.com.sg/search?q=";
 
     // <editor-fold desc="Some regex constants" defaultstate="collapsed">
-    private static final String TITLE_REGEX = "<h3.*?><a.*?>(.*?)</a></h3>";
+    private static final String TITLE_REGEX = "<h3 class=\"r\"><a href=\"(.*?)\">(.*?)<\\/a><\\/h3>";
     private static final Pattern TITLE_PATTERN = Pattern.compile(TITLE_REGEX, Pattern.DOTALL);
 
-    private static final String LINK_REGEX = "<h3.*?><a href=\"([^\\\\/].*?)\"";
+	private static final String LINK_REGEX = "<a href=\"(.*?)\"";
     private static final Pattern LINK_PATTERN = Pattern.compile(LINK_REGEX, Pattern.DOTALL);
 
-    private static final String DESCRIPTION_REGEX = "<span class=\"st\">(.*?)</span>";
+    private static final String DESCRIPTION_REGEX = "<span class=\"st\">(.*?)<\\/span>";
     private static final Pattern DESCRIPTION_PATTERN = Pattern.compile(DESCRIPTION_REGEX, Pattern.DOTALL);
 
-    private static final String RESULT_REGEX = "<div\\s?class=\"g\"><h3\\s?class=\"r\">(.*?)<br><\\/div>";
+    private static final String RESULT_REGEX = "<div class=\"rc\">(.*?)<!--n-->";
     private static final Pattern RESULT_PATTERN = Pattern.compile(RESULT_REGEX, Pattern.DOTALL);
     // </editor-fold>
 
@@ -55,8 +55,7 @@ public final class GoogleCrawler extends SearchEngineCrawler {
 
         try {
             String query = input.replace(" ", "+");
-            Document doc = Jsoup.connect(BASE_URL + query)
-                    .userAgent("Googlebot/2.1").get();
+            Document doc = Jsoup.connect(BASE_URL + query).get();
 
             Matcher m = RESULT_PATTERN.matcher(doc.toString());
 

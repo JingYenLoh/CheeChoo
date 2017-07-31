@@ -42,7 +42,7 @@ public class SearchEngineSearcher {
         List<Runnable> tasks = Arrays.asList(googleCrawler, bingCrawler);
 
         ExecutorService executor = Executors.newFixedThreadPool(noOfThreads);
-
+		
         try {
             CompletableFuture[] cf = tasks.stream()
                     .map(task -> CompletableFuture.runAsync(task, executor))

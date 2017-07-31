@@ -10,12 +10,12 @@ Basic
 
 - [x] Enable user to enter a search phrase which may contain **more
   than** one word.
-- [ ] Send the query to two search engines of your choice
+- [x] Send the query to two search engines of your choice
   **concurrently** such as yahoo or bing.
 - [x] Program will need to analyze the downloaded HTML source from
   the first 2 search results from each search engine. This will form
   the **seeds**.
-- [ ] Program will need to analyze the downloaded html source from
+- [x] Program will need to analyze the downloaded html source from
   the seeds to find out the top 10 unique webpages through
   multi-threading. You would have to look for the specific patterns to
   retrieve the web site address **eg <http://>....** as a pattern. You

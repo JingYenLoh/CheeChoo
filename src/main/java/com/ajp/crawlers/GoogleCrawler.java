@@ -27,7 +27,7 @@ public final class GoogleCrawler extends SearchEngineCrawler {
     private static final String BASE_URL = "https://www.google.com.sg/search?q=";
 
     // <editor-fold desc="Some regex constants" defaultstate="collapsed">
-    private static final String TITLE_REGEX = "<h3 class=\"r\"><a href=\"(.*?)\">(.*?)<\\/a><\\/h3>";
+    private static final String TITLE_REGEX = "<h3 class=\"r\"><a href=\".*?>(.*?)<\\/a><\\/h3>";
     private static final Pattern TITLE_PATTERN = Pattern.compile(TITLE_REGEX, Pattern.DOTALL);
 
     private static final String LINK_REGEX = "<a href=\"(.*?)\"";
@@ -81,7 +81,7 @@ public final class GoogleCrawler extends SearchEngineCrawler {
                         String title = matcher.group(1)
                                 .replaceAll("<.*?>", "")
                                 .replaceAll("&nbsp;", " ");
-                        System.out.println(title);
+                        System.out.println(title + " Title from Google");
                         searchResult.setTitle(title);
                     } else {
                         System.out.println("No title found");
@@ -92,7 +92,7 @@ public final class GoogleCrawler extends SearchEngineCrawler {
                         String description = matcher.group(1)
                                 .replaceAll("<.*?>", "")
                                 .replaceAll("&nbsp;", "");
-                        System.out.println(description);
+                        System.out.println(description + " Description from Google");
                         searchResult.setDescription(description);
                     } else {
                         System.out.println("No description found");

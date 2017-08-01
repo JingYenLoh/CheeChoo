@@ -65,7 +65,6 @@ public class BingCrawler extends SearchEngineCrawler {
                         System.out.println("Bing match found.");
                         SearchResult searchResult = new SearchResult();
                         searchResult.setSearchedTerm(input);
-//                    results.add(match);
 
                         Matcher matcher = LINK_PATTERN.matcher(match);
                         if (matcher.find()) {
@@ -88,7 +87,6 @@ public class BingCrawler extends SearchEngineCrawler {
 
                         matcher = DESCRIPTION_PATTERN.matcher(match);
                         if (matcher.find()) {
-
                             String description = matcher.group(1)
                                     .replaceAll("<.*?>", "")
                                     .replaceAll("&nbsp;", " ");
@@ -114,8 +112,7 @@ public class BingCrawler extends SearchEngineCrawler {
                                     .findFirst()
                                     .get();
                             res.getSearchedBy().add(SearchEngine.BING);
-//                            System.err.println("Queue is full but idk how to append yet");
-
+                            System.out.println("Duplicate result, adding Bing to to its searchedBy list.");
                         } else {
                             System.out.println("New result added.");
                             queue.add(searchResult);

@@ -30,7 +30,7 @@ public final class GoogleCrawler extends SearchEngineCrawler {
     private static final String TITLE_REGEX = "<h3 class=\"r\"><a href=\"(.*?)\">(.*?)<\\/a><\\/h3>";
     private static final Pattern TITLE_PATTERN = Pattern.compile(TITLE_REGEX, Pattern.DOTALL);
 
-	private static final String LINK_REGEX = "<a href=\"(.*?)\"";
+    private static final String LINK_REGEX = "<a href=\"(.*?)\"";
     private static final Pattern LINK_PATTERN = Pattern.compile(LINK_REGEX, Pattern.DOTALL);
 
     private static final String DESCRIPTION_REGEX = "<span class=\"st\">(.*?)<\\/span>";
@@ -62,10 +62,10 @@ public final class GoogleCrawler extends SearchEngineCrawler {
             if (m.find()) {
                 do {
                     String match = m.group(1);
-                    System.out.println("Google match found: " + match);
+                    System.out.println("Google match found.");
                     SearchResult searchResult = new SearchResult();
                     searchResult.setSearchedTerm(input);
-//                    results.add(match);
+
                     Matcher matcher = LINK_PATTERN.matcher(match);
                     if (matcher.find()) {
                         String url = matcher.group(1);
@@ -89,7 +89,9 @@ public final class GoogleCrawler extends SearchEngineCrawler {
 
                     matcher = DESCRIPTION_PATTERN.matcher(match);
                     if (matcher.find()) {
-                        String description = matcher.group(1).replaceAll("<.*?>", "");
+                        String description = matcher.group(1)
+                                .replaceAll("<.*?>", "")
+                                .replaceAll("&nbsp;", "");
                         System.out.println(description);
                         searchResult.setDescription(description);
                     } else {
@@ -112,7 +114,7 @@ public final class GoogleCrawler extends SearchEngineCrawler {
                                 .findFirst()
                                 .get();
                         res.getSearchedBy().add(SearchEngine.GOOGLE);
-//                        System.err.println("Queue is full but idk how to append yet");
+                        System.out.println("Duplicate result, adding Google to to its searchedBy list.");
                     } else {
                         System.out.println("New result added.");
                         queue.add(searchResult);

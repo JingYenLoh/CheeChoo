@@ -37,7 +37,10 @@
                               <Slider fx:id="threadSlider" layoutX="14.0" layoutY="100.0" majorTickUnit="1.0" max="4.0" min="1.0" minorTickCount="1" prefHeight="14.0" prefWidth="372.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="2.0" />
                               <Label layoutX="14.0" layoutY="76.0" text="Number of threads: " />
                               <Label layoutX="14.0" layoutY="145.0" text="Path to save your HTML files:" />
-                              <Label fx:id="pathLabel" layoutX="14.0" layoutY="168.0" prefHeight="17.0" prefWidth="372.0" text="Not set!!" />
+                              <Label fx:id="pathLabel" layoutX="14.0" layoutY="168.0" prefHeight="17.0" prefWidth="372.0" text="Not set!!">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font></Label>
                               <Button fx:id="changeDirButton" layoutX="13.0" layoutY="196.0" mnemonicParsing="false" onAction="#changeHtmlDirectory" text="Change Directory" />
                            </children>
                         </AnchorPane>
@@ -51,7 +54,7 @@
                               <ListView fx:id="resultsListView" layoutX="13.0" onMouseClicked="#displayResultDetails" prefHeight="315.0" prefWidth="381.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="13.0" />
                               <Label fx:id="timeTakenLabel" layoutX="13.0" layoutY="51.0" text="Time taken: " />
                               <Label fx:id="occurancesLabel" layoutX="13.0" layoutY="79.0" text="Number of occurances: " />
-                              <Label fx:id="descriptionLabel" layoutX="14.0" layoutY="111.0" prefHeight="17.0" prefWidth="372.0" text="Description:" wrapText="true" />
+                              <Text fx:id="descriptionText" layoutX="16.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description: " wrappingWidth="372.0000130832195" />
                            </children>
                         </AnchorPane>
                     </items>
@@ -71,7 +74,7 @@
                                           <Font name="System Bold" size="18.0" />
                                        </font>
                                     </Label>
-                                    <WebView fx:id="displayWebView" prefHeight="709.0" prefWidth="955.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
+                                    <WebView fx:id="displayWebView" prefHeight="709.0" prefWidth="955.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
                                  </children>
                               </AnchorPane>
                         </content>

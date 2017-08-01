@@ -59,7 +59,7 @@ public class FXMLController implements Initializable {
     @FXML
     private Label occurancesLabel;
     @FXML
-    private Label descriptionLabel;
+    private Text descriptionText;
 
     //</editor-fold>
     private String downloadPath;
@@ -81,7 +81,6 @@ public class FXMLController implements Initializable {
         searchResults = FXCollections.observableList(seedList);
         resultsListView.setItems(searchResults);
 
-//        searchTxtField.setText("san andreas");
     }
 
     @FXML
@@ -102,9 +101,11 @@ public class FXMLController implements Initializable {
         queue.drainTo(searchResults);
 
         Instant end = Instant.now();
-        Duration timeTaken = Duration.between(start, end);
 
-        timeTakenLabel.setText("Time taken: " + timeTaken.toMillis() + "ms");
+        Duration timeTaken = Duration.between(start, end);
+        String formattedTime = String.format("%.1fs", timeTaken.toMillis() / 1000D);
+
+        timeTakenLabel.setText("Time taken: " + formattedTime);
     }
 
     @FXML
@@ -129,7 +130,7 @@ public class FXMLController implements Initializable {
         SearchResult sr = resultsListView.getSelectionModel().getSelectedItem();
 
         occurancesLabel.setText("Number of occurances: " + sr.getOccurance());
-        descriptionLabel.setText("Description: " + sr.getDescription());
+        descriptionText.setText("Description: " + sr.getDescription());
 
         String htmlFile = urlToFile.get(sr.getUrl()).toURI().toString();
         System.out.println(htmlFile);

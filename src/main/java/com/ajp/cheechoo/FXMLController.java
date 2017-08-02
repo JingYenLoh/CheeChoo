@@ -18,6 +18,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -32,110 +34,128 @@ import javafx.stage.Stage;
 
 public class FXMLController implements Initializable {
 
-    //<editor-fold desc="FXML controls" defaultstate="collapsed">
-    // General controls
-    @FXML
-    private Text htmlText;
-    @FXML
-    private Slider threadSlider;
-    @FXML
-    private Button searchButton;
-    @FXML
-    private Label searchBoxLabel;
-    @FXML
-    private Button changeDirButton;
-    @FXML
-    private WebView displayWebView;
-    @FXML
-    private TextField searchTxtField;
-    @FXML
-    private ListView<SearchResult> resultsListView;
+	//<editor-fold desc="FXML controls" defaultstate="collapsed">
+	// General controls
+	@FXML
+	private Text htmlText;
+	@FXML
+	private Slider threadSlider;
+	@FXML
+	private Button searchButton;
+	@FXML
+	private Label searchBoxLabel;
+	@FXML
+	private Button changeDirButton;
+	@FXML
+	private WebView displayWebView;
+	@FXML
+	private TextField searchTxtField;
+	@FXML
+	private ListView<SearchResult> resultsListView;
 
-    // Labels with changing text
-    @FXML
-    private Label pathLabel;
-    @FXML
-    private Label timeTakenLabel;
-    @FXML
-    private Label occurancesLabel;
-    @FXML
-    private Text descriptionText;
+	// Labels with changing text
+	@FXML
+	private Label pathLabel;
+	@FXML
+	private Label timeTakenLabel;
+	@FXML
+	private Label occurancesLabel;
+	@FXML
+	private Text descriptionText;
 
-    //</editor-fold>
-    private String downloadPath;
+	//</editor-fold>
+	private String downloadPath;
 
-    private WebEngine webEngine;
+	private WebEngine webEngine;
 
-    private List<SearchResult> seedList;
-    private ObservableList<SearchResult> searchResults;
+	private DirectoryChooser directoryChooser = new DirectoryChooser();
 
-    private final Map<String, File> urlToFile = new HashMap<>();
-    private final BlockingQueue<SearchResult> queue = new ArrayBlockingQueue<>(12);
+	private List<SearchResult> seedList;
+	private ObservableList<SearchResult> searchResults;
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+	private final Map<String, File> urlToFile = new HashMap<>();
+	private final BlockingQueue<SearchResult> queue = new ArrayBlockingQueue<>(12);
 
-        webEngine = displayWebView.getEngine();
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
 
-        seedList = new ArrayList<>();
-        searchResults = FXCollections.observableList(seedList);
-        resultsListView.setItems(searchResults);
+		webEngine = displayWebView.getEngine();
 
-    }
+		seedList = new ArrayList<>();
 
-    @FXML
-    private void startCrawling(ActionEvent event) {
+		//Set default path to user desktop to download the html files
+		directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")
+				+ System.getProperty("file.separator") + "Desktop"));
+		pathLabel.setText(directoryChooser.getInitialDirectory().toString());
+		downloadPath = directoryChooser.getInitialDirectory().toString();
 
-        searchResults.clear();
+		searchResults = FXCollections.observableList(seedList);
+		resultsListView.setItems(searchResults);
 
-        String input = searchTxtField.getText();
+	}
 
-        int noOfThreads = (int) threadSlider.getValue();
-        System.out.println("Threads to use: " + noOfThreads);
+	@FXML
+	private void startCrawling(ActionEvent event) {
 
-        SearchEngineSearcher searcher = new SearchEngineSearcher(urlToFile, queue);
+		searchResults.clear();
 
-        Instant start = Instant.now();
+		String input = searchTxtField.getText();
 
-        searcher.search(input, noOfThreads, downloadPath);
-        queue.drainTo(searchResults);
+		if (!input.isEmpty()) {
+			int noOfThreads = (int) threadSlider.getValue();
+			System.out.println("Threads to use: " + noOfThreads);
 
-        Instant end = Instant.now();
+			SearchEngineSearcher searcher = new SearchEngineSearcher(urlToFile, queue);
 
-        Duration timeTaken = Duration.between(start, end);
-        String formattedTime = String.format("%.1fs", timeTaken.toMillis() / 1000D);
+			Instant start = Instant.now();
 
-        timeTakenLabel.setText("Time taken: " + formattedTime);
-    }
+			searcher.search(input, noOfThreads, downloadPath);
+			queue.drainTo(searchResults);
 
-    @FXML
-    private void changeHtmlDirectory(ActionEvent event) {
+			Instant end = Instant.now();
 
-        Stage stage = (Stage) changeDirButton.getScene().getWindow();
+			Duration timeTaken = Duration.between(start, end);
+			String formattedTime = String.format("%.1fs", timeTaken.toMillis() / 1000D);
 
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Choose HTML Save Location");
+			timeTakenLabel.setText("Time taken: " + formattedTime);
+		} else {
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("No input");
+			alert.setHeaderText(null);
+			alert.setContentText("Can't crawl if you don't type anything");
+			alert.showAndWait();
+		}
+	}
 
-        final File selectedDirectory = directoryChooser.showDialog(stage);
+	@FXML
+	private void changeHtmlDirectory(ActionEvent event) {
 
-        if (selectedDirectory != null) {
-            downloadPath = selectedDirectory.getAbsolutePath();
-            pathLabel.setText(downloadPath);
-        }
-    }
+		Stage stage = (Stage) changeDirButton.getScene().getWindow();
 
-    @FXML
-    private void displayResultDetails(MouseEvent event) {
+		directoryChooser.setTitle("Choose HTML Save Location");
 
-        SearchResult sr = resultsListView.getSelectionModel().getSelectedItem();
+		final File selectedDirectory = directoryChooser.showDialog(stage);
 
-        occurancesLabel.setText("Number of occurances: " + sr.getOccurance());
-        descriptionText.setText("Description: " + sr.getDescription());
+		if (selectedDirectory != null) {
+			downloadPath = selectedDirectory.getAbsolutePath();
+			pathLabel.setText(downloadPath);
+		} else {
 
-        String htmlFile = urlToFile.get(sr.getUrl()).toURI().toString();
-        System.out.println(htmlFile);
-        webEngine.load(htmlFile);
-        htmlText.setText(sr.getHtml());
-    }
+		}
+	}
+
+	@FXML
+	private void displayResultDetails(MouseEvent event) {
+
+		SearchResult sr = resultsListView.getSelectionModel().getSelectedItem();
+
+		occurancesLabel.setText("Number of occurances: " + sr.getOccurance());
+		descriptionText.setText("Description: " + sr.getDescription());
+
+		String htmlFile = urlToFile.get(sr.getUrl()).toURI().toString();
+		System.out.println(htmlFile);
+		webEngine.load(htmlFile);
+		htmlText.setText(sr.getHtml());
+	}
 
 }
